@@ -13,4 +13,4 @@ class TestSuiteNameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TestSuiteName
-        fields = ['name', 'operating_system', 'test_suite', 'location']
+        fields = ['user_name', 'password', 'operating_system', 'test_suite', 'location']
