@@ -56,67 +56,6 @@ class TestSuiteName(models.Model):
     location = models.FileField(upload_to='test_locations/', help_text=_("Enter folder location"), verbose_name=_("Location"))
     user_name = models.CharField(max_length=50, verbose_name=_("User Name"))
     password = models.CharField(max_length=50, validators=[RegexValidator(regex=r'^[\w.@+-]+$', message='Invalid password format')], verbose_name=_("Password"))
-
     def __str__(self):
         return f"{self.operating_system} - {self.location}"
-
-
-
-
-# from django.db import models
-# from django.contrib.auth.models import User
-# from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
-
-# class TestSuite(models.Model):
-#     PROTOCOL_CHOICES = [
-#         ('SMB', 'SMB'),
-#         ('P1', 'P1'),
-#         ('P2', 'P2'),
-#         ('P3', 'P3'),
-#         ('P4', 'P4'),
-#     ]
-
-#     LOG_LEVEL_CHOICES = [
-#         ('Debug', 'Debug'),
-#         ('Warning', 'Warning'),
-#         ('Critical', 'Critical'),
-#         ('Info', 'Info'),
-#     ]
-    
-#     YES_NO_CHOICES = [
-#         (True, 'YES'),
-#         (False, 'NO'),
-#     ]
-
-
-#     protocol = models.CharField(max_length=50, choices=PROTOCOL_CHOICES)
-#     host_ip_address = models.GenericIPAddressField()
-#     share = models.CharField(max_length=50, validators=[RegexValidator(regex=r'^[a-zA-Z0-9]*$',message='Share must contain only alphanumeric characters')])
-#     user_name = models.CharField(max_length=50)
-#     password = models.CharField(max_length=50, validators=[RegexValidator(regex=r'^[\w.@+-]+$',message='Invalid password format')])
-#     log_level = models.CharField(max_length=50, choices=LOG_LEVEL_CHOICES)
-#     sign = models.BooleanField(default=True, choices=YES_NO_CHOICES)
-#     encrypt = models.BooleanField(default=False, choices=YES_NO_CHOICES)
-#     trace = models.BooleanField(default=False, choices=YES_NO_CHOICES)
-#     min_dialect = models.IntegerField(validators=[MinValueValidator(0)])
-#     max_dialect = models.IntegerField(validators=[MaxValueValidator(1000)])
-
-#     def __str__(self):
-#         return f"{self.protocol} - {self.host_ip_address} - {self.share} - {self.user_name}"
-
-
-# class TestSuiteName(models.Model):
-#     OS_CHOICES = [
-#         ('centos', 'CentOS'),
-#         ('windows', 'Windows'),
-#         ('ubuntu', 'Ubuntu'),
-#     ]
-#     operating_system = models.CharField(max_length=50, choices=OS_CHOICES)
-#     test_suite = models.ForeignKey(TestSuite, on_delete=models.CASCADE)
-#     location = models.FileField(upload_to='test_locations/', help_text="Enter folder location")
-#     user_name = models.CharField(max_length=50)
-#     password = models.CharField(max_length=50, validators=[RegexValidator(regex=r'^[\w.@+-]+$',message='Invalid password format')])
-
-#     def __str__(self):
-#         return f"{self.operating_system} - {self.location}"
 
