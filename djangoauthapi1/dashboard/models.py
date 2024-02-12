@@ -53,7 +53,7 @@ class TestSuiteName(models.Model):
     ]
     operating_system = models.CharField(max_length=50, choices=OS_CHOICES, verbose_name=_("Operating System"))
     test_suite = models.ForeignKey(TestSuite, on_delete=models.CASCADE, verbose_name=_("Test Suite"))
-    location = models.FileField(upload_to='test_locations/', help_text=_("Enter folder location"), verbose_name=_("Location"))
+    location = models.CharField(max_length=50, help_text=_("Enter folder location"), verbose_name=_("Location"))
     user_name = models.CharField(max_length=50, verbose_name=_("User Name"))
     password = models.CharField(max_length=50, validators=[RegexValidator(regex=r'^[\w.@+-]+$', message='Invalid password format')], verbose_name=_("Password"))
     def __str__(self):
