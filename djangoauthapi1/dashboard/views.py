@@ -4,6 +4,8 @@ from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from .models import TestSuite, TestSuiteName
 from .serializers import TestSuiteSerializer, TestSuiteNameSerializer
+from rest_framework.permissions import IsAuthenticated
+
 
 class TestSuitePagination(PageNumberPagination):
     page_size = 10  
@@ -13,6 +15,7 @@ class TestSuitePagination(PageNumberPagination):
 class TestSuiteCreateView(generics.CreateAPIView):
     queryset = TestSuite.objects.all()
     serializer_class = TestSuiteSerializer
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -26,6 +29,7 @@ class TestSuiteListView(generics.ListAPIView):
     queryset = TestSuite.objects.all().order_by('id')
     serializer_class = TestSuiteSerializer
     pagination_class = TestSuitePagination
+    permission_classes = [IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -42,6 +46,7 @@ class TestSuiteListView(generics.ListAPIView):
 class TestSuiteDeleteView(generics.DestroyAPIView):
     queryset = TestSuite.objects.all()
     serializer_class = TestSuiteSerializer
+    permission_classes = [IsAuthenticated]
 
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -58,6 +63,7 @@ class TestSuiteNamePagination(PageNumberPagination):
 class TestSuiteNameCreateView(generics.CreateAPIView):
     queryset = TestSuiteName.objects.all()
     serializer_class = TestSuiteNameSerializer
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -88,8 +94,12 @@ class TestSuiteNameListView(generics.ListAPIView):
 class TestSuiteNameDeleteView(generics.DestroyAPIView):
     queryset = TestSuiteName.objects.all()
     serializer_class = TestSuiteNameSerializer
+    permission_classes = [IsAuthenticated]
 
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response({'status': 'success', 'code': status.HTTP_200_OK, 'msg': 'TestSuiteName deleted successfully'})
+
+
+
