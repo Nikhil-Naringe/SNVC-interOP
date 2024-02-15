@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
+from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
-
 
 class TestSuite(models.Model):
     PROTOCOL_CHOICES = [
@@ -42,9 +41,6 @@ class TestSuite(models.Model):
     def __str__(self):
         return f"{self.protocol} - {self.host_ip_address} - {self.share} - {self.user_name}"
 
-
-
-
 class TestSuiteName(models.Model):
     OS_CHOICES = [
         ('centos', 'CentOS'),
@@ -52,10 +48,11 @@ class TestSuiteName(models.Model):
         ('ubuntu', 'Ubuntu'),
     ]
     operating_system = models.CharField(max_length=50, choices=OS_CHOICES, verbose_name=_("Operating System"))
-    test_suite = models.CharField(max_length=50, verbose_name=_("Test Suite"))
+    suite_name = models.CharField(max_length=50, verbose_name=_("Test Suite"))
     location = models.CharField(max_length=50, help_text=_("Enter folder location"), verbose_name=_("Location"))
     user_name = models.CharField(max_length=50, verbose_name=_("User Name"))
     password = models.CharField(max_length=50, validators=[RegexValidator(regex=r'^[\w.@+-]+$', message='Invalid password format')], verbose_name=_("Password"))
+    test_suite = models.ForeignKey(TestSuite, on_delete=models.CASCADE)
+
     def __str__(self):
         return f"{self.operating_system} - {self.location}"
-

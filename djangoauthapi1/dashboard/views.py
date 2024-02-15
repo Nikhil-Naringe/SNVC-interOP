@@ -103,3 +103,26 @@ class TestSuiteNameDeleteView(generics.DestroyAPIView):
 
 
 
+from rest_framework import generics, status
+from rest_framework.response import Response
+from .models import TestSuite
+from .serializers import TestSuiteDetailSerializer
+
+class TestSuiteDetailView(generics.RetrieveAPIView):
+    queryset = TestSuite.objects.all()
+    serializer_class = TestSuiteDetailSerializer
+    permission_classes = [IsAuthenticated]
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response({'status': 'success', 'code': status.HTTP_200_OK, 'msg': 'TestSuite detail retrieved successfully', 'data': serializer.data})
+
+
+
+
+
+
+
+
+
