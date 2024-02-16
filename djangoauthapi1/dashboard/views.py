@@ -5,12 +5,14 @@ from rest_framework.pagination import PageNumberPagination
 from .models import TestSuite, TestSuiteName
 from .serializers import TestSuiteSerializer, TestSuiteNameSerializer
 from rest_framework.permissions import IsAuthenticated
-
+from .serializers import TestSuiteDetailSerializer
 
 class TestSuitePagination(PageNumberPagination):
     page_size = 10  
     page_size_query_param = 'page_size'
     max_page_size = 10000
+
+
 
 class TestSuiteCreateView(generics.CreateAPIView):
     queryset = TestSuite.objects.all()
@@ -21,8 +23,13 @@ class TestSuiteCreateView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+        
+        test_suite_id = serializer.instance.id
+
         headers = self.get_success_headers(serializer.data)
-        return Response({'status': 'success', 'code': status.HTTP_201_CREATED, 'msg': 'TestSuite created successfully'}, headers=headers)
+        return Response({'status': 'success', 'code': status.HTTP_201_CREATED, 'msg': 'TestSuite created successfully', 'data': {'id': test_suite_id}}, headers=headers)
+
+
 
 
 class TestSuiteListView(generics.ListAPIView):
@@ -43,6 +50,8 @@ class TestSuiteListView(generics.ListAPIView):
         return Response({'status': 'success', 'code': status.HTTP_200_OK, 'msg': 'TestSuites retrieved successfully', 'data': serializer.data})
 
 
+
+
 class TestSuiteDeleteView(generics.DestroyAPIView):
     queryset = TestSuite.objects.all()
     serializer_class = TestSuiteSerializer
@@ -54,11 +63,14 @@ class TestSuiteDeleteView(generics.DestroyAPIView):
         return Response({'status': 'success', 'code': status.HTTP_200_OK, 'msg': 'TestSuite deleted successfully'})
     
     
+    
 
 class TestSuiteNamePagination(PageNumberPagination):
     page_size = 10  
     page_size_query_param = 'page_size'
     max_page_size = 1000
+
+
 
 class TestSuiteNameCreateView(generics.CreateAPIView):
     queryset = TestSuiteName.objects.all()
@@ -69,8 +81,12 @@ class TestSuiteNameCreateView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+        
+        test_suite_name_id = serializer.instance.id
+
         headers = self.get_success_headers(serializer.data)
-        return Response({'status': 'success', 'code': status.HTTP_201_CREATED, 'msg': 'TestSuiteName created successfully'}, headers=headers)
+        return Response({'status': 'success', 'code': status.HTTP_201_CREATED, 'msg': 'TestSuiteName created successfully', 'data': {'id': test_suite_name_id}}, headers=headers)
+
 
 
 
@@ -91,6 +107,9 @@ class TestSuiteNameListView(generics.ListAPIView):
         return Response({'status': 'success', 'code': status.HTTP_200_OK, 'msg': 'TestSuiteNames retrieved successfully', 'data': serializer.data})
 
 
+
+
+
 class TestSuiteNameDeleteView(generics.DestroyAPIView):
     queryset = TestSuiteName.objects.all()
     serializer_class = TestSuiteNameSerializer
@@ -103,10 +122,6 @@ class TestSuiteNameDeleteView(generics.DestroyAPIView):
 
 
 
-from rest_framework import generics, status
-from rest_framework.response import Response
-from .models import TestSuite
-from .serializers import TestSuiteDetailSerializer
 
 class TestSuiteDetailView(generics.RetrieveAPIView):
     queryset = TestSuite.objects.all()
@@ -117,6 +132,10 @@ class TestSuiteDetailView(generics.RetrieveAPIView):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response({'status': 'success', 'code': status.HTTP_200_OK, 'msg': 'TestSuite detail retrieved successfully', 'data': serializer.data})
+
+
+
+
 
 
 
