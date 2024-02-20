@@ -136,7 +136,17 @@ class TestSuiteDetailView(generics.RetrieveAPIView):
 
 
 
+class TestSuiteNameUpdateView(generics.UpdateAPIView):
+    queryset = TestSuiteName.objects.all()
+    serializer_class = TestSuiteNameSerializer
+    permission_classes = [IsAuthenticated]
 
+    def put(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response({'status': 'success', 'code': status.HTTP_200_OK, 'msg': 'TestSuiteName updated successfully', 'data': serializer.data})
 
 
 
