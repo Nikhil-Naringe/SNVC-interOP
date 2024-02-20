@@ -149,9 +149,22 @@ class TestSuiteNameUpdateView(generics.UpdateAPIView):
         return Response({'status': 'success', 'code': status.HTTP_200_OK, 'msg': 'TestSuiteName updated successfully', 'data': serializer.data})
 
 
+class TestSuiteNameListViewBySuite(generics.ListAPIView):
+    serializer_class = TestSuiteNameSerializer
+    pagination_class = TestSuiteNamePagination
 
+    def get_queryset(self):
+        test_suite_id = self.kwargs.get('pk')
+        return TestSuiteName.objects.filter(test_suite_id=test_suite_id).order_by('id')
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
 
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response({'status': 'success', 'code': status.HTTP_200_OK, 'msg': 'TestSuiteNames retrieved successfully', 'data': serializer.data})
 
-
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({'status': 'success', 'code': status.HTTP_200_OK, 'msg': 'TestSuiteNames retrieved successfully', 'data': serializer.data})
 

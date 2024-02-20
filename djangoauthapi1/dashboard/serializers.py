@@ -23,3 +23,7 @@ class TestSuiteDetailSerializer(serializers.ModelSerializer):
         model = TestSuite
         fields = ['id', 'protocol', 'host_ip_address', 'share', 'user_name', 'password', 'log_level', 'sign', 'encrypt', 'trace', 'min_dialect', 'max_dialect']
         read_only_fields = ['id']
+
+
+
+
